@@ -1,85 +1,85 @@
 # star_wars_naves
 
-### SQL Para criação de um modelo
+### SQL for creating a template
 
 ```
-USE EstrelaDaMorte
+USE StarOfDeath
 
---****** PLANETAS
-CREATE TABLE Planetas(
-	IdPlaneta int NOT NULL,
-	Nome varchar(50) NOT NULL,
-	Rotacao float NOT NULL,
-	Orbita float NOT NULL,
-	Diametro float NOT NULL,
-	Clima varchar(50) NOT NULL,
-	Populacao int NOT NULL,
+--****** PLANETS
+CREATE TABLE Planets(
+	IdPlanet int NOT NULL,
+	Name varchar(50) NOT NULL,
+	Rotation float NOT NULL,
+	Orbit float NOT NULL,
+	Diameter float NOT NULL,
+	Climate varchar(50) NOT NULL,
+	Population int NOT NULL,
 )
 GO
-ALTER TABLE Planetas ADD CONSTRAINT PK_Planetas PRIMARY KEY (IdPlaneta);
+ALTER TABLE Planet ADD CONSTRAINT PK_Planet PRIMARY KEY (IdPlanet);
 GO
 --****************************************************************************************
---****** NAVES ***************************************************************************
-CREATE TABLE Naves(
-	IdNave int NOT NULL,
-	Nome varchar(100) NOT NULL,
-	Modelo varchar(150) NOT NULL,
-	Passageiros int NOT NULL,
-	Carga float NOT NULL,
-	Classe varchar(100) NOT NULL,
+--****** SpaceShips ***************************************************************************
+CREATE TABLE SpaceShips(
+	IdShip int NOT NULL,
+	Name varchar(100) NOT NULL,
+	Model varchar(150) NOT NULL,
+	Passager int NOT NULL,
+	Load float NOT NULL,
+	Class varchar(100) NOT NULL,
 )
 GO
-ALTER TABLE Naves ADD CONSTRAINT PK_Naves PRIMARY KEY (IdNave);
+ALTER TABLE SpaceShips ADD CONSTRAINT PK_SpaceShip PRIMARY KEY (IdShip);
 GO
---****** PILOTOS ****************************************************************************
+--****** PILOTS ****************************************************************************
 --******************************************************************************************
-CREATE TABLE Pilotos(
-	IdPiloto int NOT NULL,
-	Nome varchar(200) NOT NULL,
-	AnoNascimento varchar(10) NOT NULL,
-	IdPlaneta int NOT NULL,
+CREATE TABLE Pilots(
+	IdPilot int NOT NULL,
+	Name varchar(200) NOT NULL,
+	BirthYear varchar(10) NOT NULL,
+	IdPlanet int NOT NULL,
 )
 GO
-ALTER TABLE Pilotos ADD CONSTRAINT PK_Pilotos PRIMARY KEY (IdPiloto);
+ALTER TABLE Pilots ADD CONSTRAINT PK_Pilots PRIMARY KEY (IdPilot);
 GO
-ALTER TABLE Pilotos  ADD  CONSTRAINT FK_Pilotos_Planetas FOREIGN KEY(IdPlaneta)
-REFERENCES Planetas (IdPlaneta)
+ALTER TABLE Pilots  ADD  CONSTRAINT FK_Pilot_Planet FOREIGN KEY(IdPlanet)
+REFERENCES Planet (IdPlanet)
 GO
-ALTER TABLE Pilotos CHECK CONSTRAINT FK_Pilotos_Planetas
+ALTER TABLE Pilots CHECK CONSTRAINT FK_Pilot_Planet
 GO
 --******************************************************************************************
---****** PILOTOS NAVES *********************************************************************
-CREATE TABLE PilotosNaves(
-	IdPiloto int NOT NULL,
+--****** PILOTS NAVES *********************************************************************
+CREATE TABLE PilotsShips(
+	IdPilot int NOT NULL,
 	IdNave int NOT NULL,
-	FlagAutorizado bit NOT NULL,
+	AuthorizedFlag bit NOT NULL,
 )
 GO
-ALTER TABLE PilotosNaves ADD CONSTRAINT PK_PilotosNaves PRIMARY KEY (IdPiloto, IdNave);
+ALTER TABLE PilotosNaves ADD CONSTRAINT PK_PilotosNaves PRIMARY KEY (IdPilot, IdShip);
 GO
-ALTER TABLE PilotosNaves  ADD CONSTRAINT FK_PilotosNaves_Pilotos FOREIGN KEY(IdPiloto)
-REFERENCES Pilotos (IdPiloto)
+ALTER TABLE PilotsShips  ADD CONSTRAINT FK_PilotsShips_Pilots FOREIGN KEY(IdPilot)
+REFERENCES Pilots (IdPilot)
 GO
-ALTER TABLE PilotosNaves  ADD CONSTRAINT FK_PilotosNaves_Naves FOREIGN KEY(IdNave)
-REFERENCES Naves (IdNave)
+ALTER TABLE PilotsShips  ADD CONSTRAINT FK_PilotsShips_Ships FOREIGN KEY(IdShips)
+REFERENCES SpaceShips (IdNave)
 GO
-ALTER TABLE PilotosNaves  ADD CONSTRAINT DF_PilotosNaves_FlagAutorizado  DEFAULT (1) FOR FlagAutorizado
+ALTER TABLE PilotsShips  ADD CONSTRAINT DF_PilotsShips_AuthorizedFlag  DEFAULT (1) FOR AuthorizedFlag
 GO
 --****************************************************************************************************
---****** HISTÓRICO DE VIAGENS ************************************************************************
-CREATE TABLE HistoricoViagens(
-	IdNave int NOT NULL,
-	IdPiloto int NOT NULL,
-	DtSaida datetime NOT NULL,
-	DtChegada datetime NULL
+--******History of rides************************************************************************
+CREATE TABLE RidesHistory(
+	IdShip int NOT NULL,
+	IdPilot int NOT NULL,
+	DtExit datetime NOT NULL,
+	DtEntry datetime NULL
 )
 GO
 
-ALTER TABLE HistoricoViagens  ADD  CONSTRAINT FK_HistoricoViagens_PilotosNaves FOREIGN KEY(IdPiloto, IdNave)
-REFERENCES PilotosNaves (IdPiloto, IdNave)
+ALTER TABLE RidesHistory  ADD  CONSTRAINT FK_RidesHistory_PilotsShips FOREIGN KEY(IdPilot, IdShip)
+REFERENCES PilotsShips (IdPilot, IdShip)
 GO
 
-ALTER TABLE HistoricoViagens CHECK CONSTRAINT FK_HistoricoViagens_PilotosNaves
+ALTER TABLE RidesHistory CHECK CONSTRAINT FK_RidesHistory_PilotsShips
 GO
 ```
 
