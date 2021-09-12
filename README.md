@@ -1,4 +1,4 @@
-# star_wars_naves
+# star_wars_ships
 
 ### SQL for creating a template
 
